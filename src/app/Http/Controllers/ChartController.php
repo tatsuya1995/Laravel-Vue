@@ -27,11 +27,44 @@ class ChartController extends Controller
             ],
         ];
 
-        var_dump($dayLabels);
+        // 天気API取得
+        $weatherConfig = array(
+            'appid' => '0bed1d9a79dfc6240f93851f68e4db0d',
+            'lat' => '33.60639',
+            'lon' => '130.41806',
+        );
+        // $weather_json = file_get_contents('http://api.openweathermap.org/data/2.5/forecast?lat=' . $weather_config['lat'] . '&lon=' . $weather_config['lon'] . '&units=metric&lang=ja&APPID=' . $weather_config['appid']);
+        // 1時間ごとに出してくれるhourlyで
 
-        $dayLabels = json_encode($dayLabels);  
+        $weatherJson = file_get_contents('http://api.openweathermap.org/data/2.5/onecall?lat=' . $weatherConfig['lat'] . '&lon=' . $weatherConfig['lon'] . '&units=metric&lang=ja&APPID=' . $weatherConfig['appid']);
+        $weatherData = json_decode($weatherJson, true);
+        $weatherHours = $weatherData['hourly']; // 1時間毎の天気の情報全て
 
+        $hour = [];
+        $temp = [];
+        $dayLabels = [];
+        $tempData = [];
+        $weatherViewData = array();
 
-        return view('chart', ['dayLabels' => $dayLabels]);
+        // 1時間毎の気温・天気・天気のアイコンを取得
+        foreach($weatherHours as $weatherHour) {
+            // 時間と気温のラベルを取得
+            $dayLabels[] = date('m/d:H時', $weatherHour['dt']);
+            $tempData[] = $weatherHour['temp'];
+
+            $weather = $weatherHour['weather'][0]['description']; // 後で別で使いたい
+            $icon = $weatherHour['weather'][0]['icon']; // 後で別で使いたい
+
+            $weatherViewData['dayLabels'] = $dayLabels;
+            $weatherViewData['temp'] = $tempData;
+            $weatherViewData['icon'] = $icon;
+//            <img src="http://openweathermap.org/img/w/04n.png">
+
+        }
+        // JSへ渡すためにエンコード
+        $weatherViewData = json_encode($weatherViewData);
+
+        //TODO 時間と気温と天気を送る
+        return view('chart', ['weatherViewData' => $weatherViewData]);
     }
 }

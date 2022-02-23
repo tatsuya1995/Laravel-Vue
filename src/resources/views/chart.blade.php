@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>JSpractice</title>
+        <title>Chart</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
@@ -14,34 +14,43 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
     </head>
     <body>
-
-        
-
-        <h1>折れ線グラフ</h1>
-        <canvas id="myLineChart"></canvas>
-        
+        <h1>気温グラフ</h1>
+        <canvas id="chart"></canvas>
+        <form action="get"></form>
         <script>
-        var dayLabels = JSON.parse('<?php echo $dayLabels; ?>'); // JSONでこーど
-        var ctx = document.getElementById("myLineChart");
-        var label, data, borderColor, backgroundColor;
+        var weatherViewData = JSON.parse('<?php echo $weatherViewData; ?>'); // JSONデコード
+        var ctx = document.getElementById("chart");
 
-        var myLineChart = new Chart(ctx, {
+        var chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: dayLabels['days'],
-                datasets: [setData(0), setData(1)],
+                labels: weatherViewData['dayLabels'],
+                datasets: [
+                    {
+                    label: '気温',
+                    data: weatherViewData['temp'],
+                    borderColor: 'rgba(255,0,0,1)',
+                    backgroundColor: 'rgba(0,0,0,0)'
+                    },
+                    // {
+                    // label: '最高気温',
+                    // data: weatherViewData['temp'],
+                    // borderColor: 'rgba(255,0,0,1)',
+                    // backgroundColor: 'rgba(0,0,0,0)'
+                    // },
+                ],
             },
             options: {
                 title: {
                     display: true,
-                    text: '気温（8月1日~8月7日）'
+                    text: '気温'
                 },
                 scales: {
                     yAxes: [{
                     ticks: {
-                        suggestedMax: 40,
-                        suggestedMin: 0,
-                        stepSize: 10,
+                        suggestedMax: 15,
+                        suggestedMin: -5,
+                        stepSize: 5,
                         callback: function(value, index, values){
                         return  value +  '度'
                         }
@@ -51,16 +60,14 @@
             }
         });
 
-        function setData(i) {
-            // for (var i=0; i< dayLabels['alldata'].length; i++) {
-                var chartData = {};
-                chartData.label = dayLabels['alldata'][i]['name'];
-                chartData.data = dayLabels['alldata'][i]['data'];
-                chartData.borderColor = dayLabels['alldata'][i]['borderColor'];
-                chartData.backgroundColor = dayLabels['alldata'][i]['backgroundColor'];
-            // }
-            return chartData;
-        }
+        // function setData() {
+        //     var chartData = {};
+        //     chartData.label = '最高気温（度）';
+        //     chartData.data = weatherViewData['temp'];
+        //     chartData.borderColor = 'rgba(255,0,0,1)';
+        //     chartData.backgroundColor = 'rgba(0,0,0,0)';
+        //     return chartData;
+        // }
 
     </script>
     <script src="{{ mix('js/app.js') }}"></script>
