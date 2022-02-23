@@ -29,9 +29,9 @@ class ChartController extends Controller
 
         // 天気API取得
         $weatherConfig = array(
-            'appid' => '0bed1d9a79dfc6240f93851f68e4db0d',
-            'lat' => '33.60639',
-            'lon' => '130.41806',
+            'appid' => '',
+            'lat' => '26.231408',
+            'lon' => '127.685525',
         );
         // $weather_json = file_get_contents('http://api.openweathermap.org/data/2.5/forecast?lat=' . $weather_config['lat'] . '&lon=' . $weather_config['lon'] . '&units=metric&lang=ja&APPID=' . $weather_config['appid']);
         // 1時間ごとに出してくれるhourlyで

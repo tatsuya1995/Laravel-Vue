@@ -48,9 +48,9 @@
                 scales: {
                     yAxes: [{
                     ticks: {
-                        suggestedMax: 15,
-                        suggestedMin: -5,
-                        stepSize: 5,
+                        suggestedMax: 20,
+                        suggestedMin: 10,
+                        stepSize: 2,
                         callback: function(value, index, values){
                         return  value +  '度'
                         }
