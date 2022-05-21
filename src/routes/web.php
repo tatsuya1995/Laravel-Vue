@@ -4,6 +4,7 @@ use App\Http\Controllers\QiitaController;
 use App\Http\Controllers\JsPracticeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\s3UpLoadController;
+use App\Http\Controllers\accountController;
 
 
 
@@ -32,4 +33,16 @@ Route::post('/s3UpLoad', 's3UpLoadController@create');
 
 // chart
 Route::get('/chart', 'chartController@index');
+
+// アカウント表示
+Route::get('/displayAccount', 'accountController@index')->name('displayAccount');
+Route::post('/storeAccount', 'accountController@store');
+Route::post('/editAccount', 'accountController@edit');
+Route::post('/deleteAccount', 'accountController@delete');
+
+// spot_info
+Route::get('/list', 'MainController@list');
+Route::get('/detail', 'MainController@detail');
+Route::match(['get', 'post'], '/search', 'MainController@search');
+Route::post('/save', 'MainController@save');
 
