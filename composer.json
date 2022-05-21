@@ -1,5 +1,10 @@
 {
     "require": {
         "league/flysystem-aws-s3-v3": "^1.0"
+    },
+    "autoload": {
+        "files": [
+           "app/Helper.php"
+        ]
     }
 }
